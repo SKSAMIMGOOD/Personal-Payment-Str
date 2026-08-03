@@ -1,104 +1,60 @@
 const upiId = "sksamimgoodboy@sbi";
-const name = "SK MD SAMIM";
+const payeeName = "SK MD SAMIM";
+const upiLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payeeName)}&cu=INR`;
 
-const upiLink =
-    `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&cu=INR`;
+function initialisePaymentPage() {
+    const payBtn = document.getElementById("payBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const copyBtn2 = document.getElementById("copyBtn2");
+    const loader = document.getElementById("loader");
+    const toast = document.getElementById("toast");
 
-const copyBtn = document.getElementById("copyBtn");
-// const payBtn = document.getElementById("payBtn");
-const loader = document.getElementById("loader");
+    function showToast(message) {
+        if (!toast) return;
 
-payBtn.addEventListener("click",(e)=>{
+        toast.textContent = message;
+        toast.classList.add("show");
 
-    e.preventDefault();
-
-    loader.classList.add("show");
-
-    setTimeout(()=>{
-
-        window.location.href = upiLink;
-
-    },1000);
-
-});
-
-// Copy UPI ID
-copyBtn.addEventListener("click", async () => {
-
-    try {
-
-        await navigator.clipboard.writeText(upiId);
-
-        showToast("✅ UPI ID Copied");
-
-        copyBtn.innerHTML = "Copied ✓";
-
-        setTimeout(() => {
-
-            copyBtn.innerHTML = "Copy";
-
-        }, 2000);
-
-        setTimeout(() => {
-            copyBtn.innerHTML = "Copy";
-        }, 2000);
-
-    }
-    catch {
-
-        alert("UPI ID : " + upiId);
-
+        window.setTimeout(() => toast.classList.remove("show"), 2500);
     }
 
-});
-const copyBtn2 = document.getElementById("copyBtn2");
+    async function copyUpiId(button, defaultLabel) {
+        try {
+            await navigator.clipboard.writeText(upiId);
+            showToast("UPI ID copied");
+            button.textContent = "Copied \u2713";
+        } catch {
+            // Clipboard access may be unavailable on some mobile browsers.
+            window.prompt("Copy this UPI ID:", upiId);
+            return;
+        }
 
-copyBtn2.addEventListener("click", async ()=>{
+        window.setTimeout(() => {
+            button.textContent = defaultLabel;
+        }, 2000);
+    }
 
-    await navigator.clipboard.writeText(upiId);
+    if (copyBtn) {
+        copyBtn.addEventListener("click", () => copyUpiId(copyBtn, "Copy"));
+    }
 
-    copyBtn2.innerHTML="Copied ✓";
+    if (copyBtn2) {
+        copyBtn2.addEventListener("click", () => copyUpiId(copyBtn2, "\uD83D\uDCCB Copy UPI ID"));
+    }
 
-    setTimeout(()=>{
-
-        copyBtn2.innerHTML="📋 Copy UPI ID";
-
-    },2000);
-
-});
-
-const toast = document.getElementById("toast");
-
-function showToast(message) {
-
-    toast.innerHTML = message;
-
-    toast.classList.add("show");
-
-    setTimeout(() => {
-
-        toast.classList.remove("show");
-
-    }, 2500);
-
+    if (payBtn) {
+        // Keep this as a normal anchor navigation.  UPI apps can only be opened
+        // reliably when the upi:// URL is triggered directly by the user click.
+        payBtn.href = upiLink;
+        payBtn.addEventListener("click", () => {
+            if (loader) loader.classList.add("show");
+        });
+    }
 }
 
-// Open UPI App
-payBtn.href = upiLink;
-
-// // Optional fallback
-payBtn.addEventListener("click", () => {
-
-    setTimeout(() => {
-
-        alert(
-            `If no UPI app opened,
-
-Copy this UPI ID:
-
-${upiId}`
-        );
-
-    }, 2000);
-
-});
+// script.js is loaded before the loader and toast elements in index.html.
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initialisePaymentPage, { once: true });
+} else {
+    initialisePaymentPage();
+}
