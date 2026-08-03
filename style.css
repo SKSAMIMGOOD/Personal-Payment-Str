@@ -282,6 +282,12 @@ h1{
 
 }
 
+.payment-app{
+    display:block;
+    border-radius:10px;
+    line-height:0;
+}
+
 .payment-methods img{
 
     width:60px;
@@ -300,6 +306,11 @@ h1{
 
     transform:scale(1.1);
 
+}
+
+.payment-app:focus-visible{
+    outline:3px solid white;
+    outline-offset:3px;
 }
 /* Toast */
 

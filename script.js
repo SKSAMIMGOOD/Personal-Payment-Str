@@ -1,6 +1,19 @@
 const upiId = "sksamimgoodboy@sbi";
 const payeeName = "SK MD SAMIM";
 const upiLink = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payeeName)}&cu=INR`;
+const androidUpiPackages = {
+    gpay: "com.google.android.apps.nbu.paisa.user",
+    phonepe: "com.phonepe.app",
+    paytm: "net.one97.paytm",
+    bhim: "in.org.npci.upiapp"
+};
+
+function androidAppIntent(packageName) {
+    const query = upiLink.slice(upiLink.indexOf("?") + 1);
+    const fallback = encodeURIComponent(upiLink);
+
+    return `intent://pay?${query}#Intent;scheme=upi;package=${packageName};S.browser_fallback_url=${fallback};end`;
+}
 
 function initialisePaymentPage() {
     const payBtn = document.getElementById("payBtn");
@@ -8,6 +21,7 @@ function initialisePaymentPage() {
     const copyBtn2 = document.getElementById("copyBtn2");
     const loader = document.getElementById("loader");
     const toast = document.getElementById("toast");
+    const paymentAppLinks = document.querySelectorAll(".payment-app[data-upi-app]");
 
     function showToast(message) {
         if (!toast) return;
@@ -50,6 +64,22 @@ function initialisePaymentPage() {
             if (loader) loader.classList.add("show");
         });
     }
+
+    paymentAppLinks.forEach((link) => {
+        const packageName = androidUpiPackages[link.dataset.upiApp];
+
+        // Android Chrome supports app-specific intent links. Other browsers use
+        // the standard UPI link so the user can choose any installed UPI app.
+        if (packageName && /Android/i.test(navigator.userAgent)) {
+            link.href = androidAppIntent(packageName);
+        } else {
+            link.href = upiLink;
+        }
+
+        link.addEventListener("click", () => {
+            if (loader) loader.classList.add("show");
+        });
+    });
 }
 
 // script.js is loaded before the loader and toast elements in index.html.
