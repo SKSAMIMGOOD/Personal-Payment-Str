@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pay SK MD SAMIM</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="background"></div>
+
+    <div class="container">
+        <div class="card">
+
+            <div class="profile">
+
+                <div class="avatar">
+                    <img src="picofme (9).png" alt="SK MD SAMIM" />
+                </div>
+
+                <h2>SK MD SAMIM</h2>
+
+                <p>Receive Money via UPI</p>
+
+            </div>
+
+            <img src="qr.png" class="qr" alt="UPI QR">
+
+            <div class="upi-box">
+
+                <span id="upi">
+                    sksamimgoodboy@sbi
+                </span>
+
+                <button id="copyBtn">
+                    Copy
+                </button>
+
+            </div>
+
+            <div class="buttons">
+                <a id="payBtn" class="btn" href="#">
+                     Pay Now
+                </a>
+
+                <button id="copyBtn2" class="btn secondary" type="button">
+                    📋 Copy UPI ID
+                </button>
+            </div>
+
+            <div class="payment-methods">
+
+                <img src="data:image/png;base64,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"
+                    alt="external-google-pay-is-the-fast-simple-way-to-pay-online-in-stores-and-more-logo-color-tal-revivo">
+
+                <img src="https://img.icons8.com/?size=100&id=OYtBxIlJwMGA&format=png&color=000000">
+
+                <img src="https://img.icons8.com/?size=100&id=68067&format=png&color=000000">
+
+                <img src="https://img.icons8.com/?size=100&id=5RcHTSNy4fbL&format=png&color=000000">
+
+            </div>
+
+        </div>
+
+        <!-- ------ Below is the old version of the card, which is commented out. You can remove the comments if you want to use it instead. ------ -->
+        <!-- 
+    <div class="card">
+
+        <h1>Pay SK MD SAMIM</h1>
+
+        <p class="subtitle">
+            Secure UPI Payment
+        </p>
+
+        <img src="qr.png" class="qr">
+
+        <div class="upi-box">
+
+            <span id="upi">
+                sksamimgoodboy@sbi
+            </span>
+
+            <button id="copyBtn">
+                Copy
+            </button>
+
+        </div>
+
+       <div class="buttons">
+
+    <a id="payBtn" class="btn">
+        🚀 Pay with Any UPI App
+    </a>
+
+    <button id="copyBtn2" class="btn secondary">
+        📋 Copy UPI ID
+    </button>
+
+</div>
+
+    </div> -->
+
+    </div>
+
+    <script src="script.js"></script>
+    <div id="loader" class="loader">
+
+        <div class="spinner"></div>
+
+        <p>Opening UPI...</p>
+
+    </div>
+
+    <div id="toast" class="toast">
+        Copied Successfully
+    </div>
+
+</body>
+
+</html>
