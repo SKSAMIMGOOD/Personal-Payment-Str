@@ -17,7 +17,6 @@ function androidAppIntent(packageName) {
 
 function initialisePaymentPage() {
     const payBtn = document.getElementById("payBtn");
-    const copyBtn = document.getElementById("copyBtn");
     const copyBtn2 = document.getElementById("copyBtn2");
     const loader = document.getElementById("loader");
     const toast = document.getElementById("toast");
@@ -46,10 +45,6 @@ function initialisePaymentPage() {
         window.setTimeout(() => {
             button.textContent = defaultLabel;
         }, 2000);
-    }
-
-    if (copyBtn) {
-        copyBtn.addEventListener("click", () => copyUpiId(copyBtn, "Copy"));
     }
 
     if (copyBtn2) {
